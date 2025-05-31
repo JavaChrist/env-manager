@@ -177,7 +177,7 @@ export const ProjectCard = ({ project, onEdit, onDelete }: ProjectCardProps) => 
               Variables d'environnement
             </h4>
             <button
-              onClick={() => copyToClipboard(project.envVariables)}
+              onClick={() => copyToClipboard(project.envVariables || '')}
               className={`flex items-center text-xs transition-all duration-200 px-3 py-2 rounded-lg font-medium ${copied
                 ? 'text-green-700 dark:text-green-300 bg-green-100 dark:bg-green-900/50 shadow-lg'
                 : 'text-gray-600 dark:text-gray-400 hover:text-green-700 dark:hover:text-green-300 hover:bg-green-100 dark:hover:bg-green-900/50 shadow-md hover:shadow-lg'
