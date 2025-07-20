@@ -5,6 +5,22 @@ import App from './App.tsx'
 import { AuthProvider } from './contexts/AuthContext.tsx'
 import { ThemeProvider } from './contexts/ThemeContext.tsx'
 
+// PWA Service Worker Registration
+import { registerSW } from 'virtual:pwa-register'
+
+// Enregistrer le service worker
+const updateSW = registerSW({
+  onNeedRefresh() {
+    // Demander à l'utilisateur s'il veut mettre à jour
+    if (confirm('Une nouvelle version est disponible. Voulez-vous actualiser ?')) {
+      updateSW(true)
+    }
+  },
+  onOfflineReady() {
+    console.log('App prête pour utilisation hors ligne')
+  },
+})
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ThemeProvider>
