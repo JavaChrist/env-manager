@@ -21,6 +21,28 @@ VITE_FIREBASE_MESSAGING_SENDER_ID=123456789
 VITE_FIREBASE_APP_ID=votre_app_id
 ```
 
+### Import depuis Vercel (fonctionnalité)
+
+Pour activer le bouton **« Importer depuis Vercel »** (récupération automatique des
+variables d'environnement de vos projets déjà déployés), ajoutez dans
+**Settings > Environment Variables** :
+
+```
+VERCEL_TOKEN=votre_token_vercel
+VERCEL_TEAM_ID=team_xxx   # optionnel, uniquement si vos projets sont dans une équipe
+```
+
+- Le token se crée sur [vercel.com/account/tokens](https://vercel.com/account/tokens).
+- ⚠️ **N'utilisez PAS le préfixe `VITE_`** : ce token est **secret** et ne doit
+  jamais être exposé au navigateur. Il est utilisé uniquement par les fonctions
+  serverless (`/api/vercel/*`), côté serveur.
+- Les variables Vercel de type **« Sensitive »** ne sont jamais renvoyées
+  déchiffrées par l'API : elles apparaîtront avec une valeur vide, à compléter
+  manuellement.
+
+> 💡 En local, `npm run dev` (Vite) ne sert pas les fonctions `/api`. Pour tester
+> l'import Vercel en local, utilisez `vercel dev` après `npm i -g vercel`.
+
 ### 2. Configuration de build
 
 Vercel détectera automatiquement Vite. Les paramètres par défaut fonctionnent :

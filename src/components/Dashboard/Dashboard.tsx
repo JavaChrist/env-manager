@@ -5,6 +5,7 @@ import type { Project } from '../../types/Project';
 import { ProjectCard } from './ProjectCard';
 import { ProjectCardSkeleton } from './ProjectCardSkeleton';
 import { ProjectForm } from './ProjectForm';
+import { VercelImportModal } from './VercelImportModal';
 import { ConfirmModal } from '../Common/ConfirmModal';
 
 export const Dashboard = () => {
@@ -13,6 +14,8 @@ export const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [editingProject, setEditingProject] = useState<Project | null>(null);
+  const [prefillData, setPrefillData] = useState<{ name?: string; envVariables?: string } | null>(null);
+  const [showVercelImport, setShowVercelImport] = useState(false);
   const [error, setError] = useState('');
 
   // État pour la modale de confirmation
@@ -75,6 +78,14 @@ export const Dashboard = () => {
   const handleCloseForm = () => {
     setShowForm(false);
     setEditingProject(null);
+    setPrefillData(null);
+  };
+
+  const handleVercelImport = (data: { name: string; envVariables: string }) => {
+    setShowVercelImport(false);
+    setEditingProject(null);
+    setPrefillData(data);
+    setShowForm(true);
   };
 
   const handleProjectSaved = () => {
@@ -94,15 +105,26 @@ export const Dashboard = () => {
                 Gérez vos variables d'environnement en toute sécurité
               </p>
             </div>
-            <button
-              onClick={() => setShowForm(true)}
-              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-black dark:bg-gray-900 hover:bg-gray-800 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black dark:focus:ring-gray-500 dark:focus:ring-offset-gray-800 transition-colors"
-            >
-              <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-              </svg>
-              Nouveau Projet
-            </button>
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => setShowVercelImport(true)}
+                className="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-md text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black dark:focus:ring-gray-500 dark:focus:ring-offset-gray-800 transition-colors"
+              >
+                <svg className="w-4 h-4 mr-2" viewBox="0 0 76 65" fill="currentColor">
+                  <path d="M37.5274 0L75.0548 65H0L37.5274 0Z" />
+                </svg>
+                Importer depuis Vercel
+              </button>
+              <button
+                onClick={() => setShowForm(true)}
+                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-black dark:bg-gray-900 hover:bg-gray-800 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black dark:focus:ring-gray-500 dark:focus:ring-offset-gray-800 transition-colors"
+              >
+                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                </svg>
+                Nouveau Projet
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -165,8 +187,17 @@ export const Dashboard = () => {
       {showForm && (
         <ProjectForm
           project={editingProject}
+          initialData={prefillData}
           onClose={handleCloseForm}
           onSaved={handleProjectSaved}
+        />
+      )}
+
+      {/* Modal d'import Vercel */}
+      {showVercelImport && (
+        <VercelImportModal
+          onClose={() => setShowVercelImport(false)}
+          onImport={handleVercelImport}
         />
       )}
 

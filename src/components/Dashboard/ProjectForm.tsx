@@ -5,19 +5,20 @@ import type { Project, CreateProjectData, UpdateProjectData } from '../../types/
 
 interface ProjectFormProps {
   project?: Project | null;
+  initialData?: { name?: string; envVariables?: string } | null;
   onClose: () => void;
   onSaved: () => void;
 }
 
-export const ProjectForm = ({ project, onClose, onSaved }: ProjectFormProps) => {
+export const ProjectForm = ({ project, initialData, onClose, onSaved }: ProjectFormProps) => {
   const { currentUser } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
   const [formData, setFormData] = useState({
-    name: '',
+    name: initialData?.name || '',
     description: '',
-    envVariables: '',
+    envVariables: initialData?.envVariables || '',
     readme: '',
     tags: [] as string[],
   });

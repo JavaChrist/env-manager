@@ -9,6 +9,7 @@ export { Dashboard } from './Dashboard/Dashboard';
 export { ProjectCard } from './Dashboard/ProjectCard';
 export { ProjectCardSkeleton } from './Dashboard/ProjectCardSkeleton';
 export { ProjectForm } from './Dashboard/ProjectForm';
+export { VercelImportModal } from './Dashboard/VercelImportModal';
 
 // Composants communs
 export { ConfirmModal } from './Common/ConfirmModal'; 
